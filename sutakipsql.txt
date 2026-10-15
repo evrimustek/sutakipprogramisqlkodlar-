@@ -1,0 +1,37 @@
+CREATE DATABASE SuTakipDB;
+
+USE SuTakipDB;
+GO
+
+CREATE TABLE Kullanici (
+    KullaniciID INT IDENTITY(1,1) PRIMARY KEY,
+    KullaniciAdi VARCHAR(50),
+    SuHedefi DECIMAL(4,2),
+    KayitTarihi DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE BildirimAyar (
+    AyarID INT IDENTITY(1,1) PRIMARY KEY,
+    KullaniciID INT,
+    BildirimSayisi INT,
+    BaslangicSaati TIME,
+    BitisSaati TIME,
+    FOREIGN KEY (KullaniciID) REFERENCES Kullanici(KullaniciID)
+);
+
+CREATE TABLE SuKayit (
+    KayitID INT IDENTITY(1,1) PRIMARY KEY,
+    KullaniciID INT,
+    IçilenMiktar DECIMAL(3,2) DEFAULT 0.50,
+    IçmeZamani DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (KullaniciID) REFERENCES Kullanici(KullaniciID)
+);
+
+CREATE TABLE BildirimZaman (
+    ZamanID INT IDENTITY(1,1) PRIMARY KEY,
+    KullaniciID INT,
+    PlanlananSaat TIME,
+    Durum VARCHAR(20) DEFAULT 'Bekliyor',
+    FOREIGN KEY (KullaniciID) REFERENCES Kullanici(KullaniciID)
+);
+GO
